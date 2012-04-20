@@ -8,8 +8,6 @@ require 'nokogiri'
 require 'open-uri'
 require 'json'
 
-OAUTH_TOKEN = ENV['OAUTH_TOKEN']
-
 class Foursquare
   def initialize(token)
     @oauth_token = token
@@ -67,33 +65,37 @@ class Weather
   end
 end
 
-def results
-  foursquare = Foursquare.new(OAUTH_TOKEN)
-  weather = Weather.new(foursquare.location['city'])
-  {
-    :timezone => foursquare.timezone,
-    :lat_lng => foursquare.lat_lng,
-    :location_str => foursquare.location_str,
-    :temp_c => weather.temp_c,
-    :temp_f => weather.temp_f,
-    :icon => weather.icon
-  }
-end
+class WhereIsKeavy
+  OAUTH_TOKEN = ENV['OAUTH_TOKEN']
 
-def store_results
-  File.open('./results.yml', 'w') do |out|
-    YAML.dump(results, out)
+  def results
+    foursquare = Foursquare.new(OAUTH_TOKEN)
+    weather = Weather.new(foursquare.location['city'])
+    {
+      :timezone => foursquare.timezone,
+      :lat_lng => foursquare.lat_lng,
+      :location_str => foursquare.location_str,
+      :temp_c => weather.temp_c,
+      :temp_f => weather.temp_f,
+      :icon => weather.icon
+    }
+  end
+
+  def store_results
+    File.open('./results.yml', 'w') do |out|
+      YAML.dump(results, out)
+    end
+  end
+
+  def load_results
+    YAML.load_file('./results.yml')
+  rescue
+    {}
   end
 end
 
-def load_results
-  YAML.load_file('./results.yml')
-rescue
-  {}
-end
-
 get '/' do
-  @results = load_results
+  @results = WhereIsKeavy.new.load_results
   @timezone = TZInfo::Timezone.get(@results[:timezone])
   erb :index
 end
