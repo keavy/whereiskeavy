@@ -1,6 +1,6 @@
-<h2><%= @text %></h2>
+<h2><%= @results[:location_str] %></h2>
 <p>Local time: <%= @timezone.now.strftime('%I:%M %p') %></p>
-<p><%= @temp_c %>&deg;C (<%= @temp_f %>&deg;F) <img src="http://www.google.com/<%= @icon %>" /></p>
+<p><%= @results[:temp_c] %>&deg;C (<%= @results[:temp_f] %>&deg;F) <img src="http://www.google.com/<%= @results[:icon] %>" /></p>
 
 
 <div id='map_canvas' style='width: 600px; height: 310px'>
@@ -8,7 +8,7 @@
 
 <script type="text/javascript" charset="utf-8">
   var gmapMarkers = <%=
-  output = [{:coordinate => @location[0], :title => @location[1]}]
+  output = [{:coordinate => @results[:lat_lng], :title => @results[:location_str]}]
   output.to_json
   %>
 

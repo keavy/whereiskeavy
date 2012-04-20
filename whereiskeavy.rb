@@ -6,6 +6,7 @@ require 'tzinfo'
 require 'yaml'
 require 'nokogiri'
 require 'open-uri'
+require 'json'
 
 OAUTH_TOKEN = ENV['OAUTH_TOKEN']
 
@@ -31,7 +32,7 @@ class Foursquare
     venue['location'] || {}
   end
 
-  def text
+  def location_str
     [location['city'], location['state'], location['country']].reject(&:nil?) * ', '
   end
 
@@ -66,17 +67,33 @@ class Weather
   end
 end
 
-get '/' do
+def results
   foursquare = Foursquare.new(OAUTH_TOKEN)
-  @timezone = TZInfo::Timezone.get(foursquare.timezone)
+  weather = Weather.new(foursquare.location['city'])
+  {
+    :timezone => foursquare.timezone,
+    :lat_lng => foursquare.lat_lng,
+    :location_str => foursquare.location_str,
+    :temp_c => weather.temp_c,
+    :temp_f => weather.temp_f,
+    :icon => weather.icon
+  }
+end
 
-  @text = foursquare.text
-  @location = [foursquare.lat_lng, foursquare.text]
+def store_results
+  File.open('./results.yml', 'w') do |out|
+    YAML.dump(results, out)
+  end
+end
 
-  weather = Weather.new('Tucson')
-  @temp_c = weather.temp_c
-  @temp_f = weather.temp_f
-  @icon = weather.icon
+def load_results
+  YAML.load_file('./results.yml')
+rescue
+  {}
+end
 
+get '/' do
+  @results = load_results
+  @timezone = TZInfo::Timezone.get(@results[:timezone])
   erb :index
 end

@@ -1,0 +1,9 @@
+---
+:timezone: America/Phoenix
+:lat_lng:
+- 32.24959602450668
+- -110.8394506158091
+:location_str: Tucson, Arizona, United States
+:temp_c: '33'
+:temp_f: '91'
+:icon: /ig/images/weather/sunny.gif
