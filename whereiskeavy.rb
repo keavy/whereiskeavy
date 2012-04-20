@@ -4,6 +4,8 @@ require 'foursquare2'
 require 'oauth2'
 require 'active_support/time'
 require 'yaml'
+require 'nokogiri'
+require 'open-uri'
 
 config = YAML.load_file('config/config.yml')
 OAUTH_TOKEN = config['oauth_token']
@@ -44,10 +46,38 @@ class Foursquare
   end
 end
 
+class Weather
+  def initialize(location)
+    @location = location
+  end
+
+  def report
+    Nokogiri::XML(open("http://www.google.com/ig/api?weather=#{@location}"))
+  end
+
+  def temp_c
+    report.css("weather current_conditions temp_c").attr('data').value
+  end
+
+  def temp_f
+    report.css("weather current_conditions temp_f").attr('data').value
+  end
+
+  def icon
+    report.css("weather current_conditions icon").attr('data').value
+  end
+end
+
 get '/' do
   foursquare = Foursquare.new(OAUTH_TOKEN)
   @text = foursquare.text
   @location = [foursquare.lat_lng, foursquare.text]
   @timezone = foursquare.timezone
+
+  weather = Weather.new('Tucson')
+  @temp_c = weather.temp_c
+  @temp_f = weather.temp_f
+  @icon = weather.icon
+
   erb :index
 end

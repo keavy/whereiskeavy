@@ -1,5 +1,8 @@
 <h2><%= @text %></h2>
 <p>Local time: <%= Time.now.in_time_zone(@timezone).strftime('%I:%M %p') %></p>
+<p><%= @temp_c %>&deg;C (<%= @temp_f %>&deg;F) <img src="http://www.google.com/<%= @icon %>" /></p>
+
+
 <div id='map_canvas' style='width: 600px; height: 310px'>
 </div>
 
