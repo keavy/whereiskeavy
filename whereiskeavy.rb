@@ -7,8 +7,7 @@ require 'yaml'
 require 'nokogiri'
 require 'open-uri'
 
-config = YAML.load_file('config/config.yml')
-OAUTH_TOKEN = config['oauth_token']
+OAUTH_TOKEN = ENV['OAUTH_TOKEN']
 
 class Foursquare
   def initialize(token)
