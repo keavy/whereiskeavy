@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'foursquare2'
 require 'oauth2'
-require 'active_support/time'
+require 'tzinfo'
 require 'yaml'
 require 'nokogiri'
 require 'open-uri'
@@ -40,8 +40,7 @@ class Foursquare
   end
 
   def timezone
-    # timeZoneOffset
-    last_checkin['timeZone']
+    last_checkin['timeZone'] || 'GMT'
   end
 end
 
@@ -69,9 +68,10 @@ end
 
 get '/' do
   foursquare = Foursquare.new(OAUTH_TOKEN)
+  @timezone = TZInfo::Timezone.get(foursquare.timezone)
+
   @text = foursquare.text
   @location = [foursquare.lat_lng, foursquare.text]
-  @timezone = foursquare.timezone
 
   weather = Weather.new('Tucson')
   @temp_c = weather.temp_c
