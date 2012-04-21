@@ -1,1 +1,41 @@
-#map_canvas{margin: 20px 0;}
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  padding:0;
+  margin:0;
+  font-family:Georgia, Times, serif;
+  background:#fff;
+  min-height:300px;
+  color:#444;
+  font-size:14px;
+}
+
+#doc {
+  margin: 60px;
+  width: 500px;
+}
+
+#location {margin: 40px 0}
+
+#map_canvas { margin: 20px 0; border-top: 4px solid #333; border-bottom: 6px solid #333;}
+
+
+h1 {
+  font-size:40px;
+  font-weight:normal;
+  font-style:italic;
+  font-weight:bold;
+}
+
+h2 {
+  color:#508395;
+  margin-bottom: 5px;
+  font-family:'LeagueGothicRegular', Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+}

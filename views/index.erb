@@ -1,7 +1,7 @@
-<h2><%= @results[:location_str] %></h2>
-<p>Local time: <%= @timezone.now.strftime('%I:%M %p') %></p>
-<p><%= @results[:temp_c] %>&deg;C (<%= @results[:temp_f] %>&deg;F) <img src="http://www.google.com/<%= @results[:icon] %>" /></p>
-
+<div id="location">
+  <h2><%= @results[:location_str] %></h2>
+  <p><span class='time'><%= @timezone.now.strftime('%I:%M %p') %></span> / <span class='weather'>Low: <%= @results[:low] %>&deg;F, High: <%= @results[:high] %>&deg;F</span></p>
+</div>
 
 <div id='map_canvas' style='width: 600px; height: 310px'>
 </div>

@@ -7,6 +7,7 @@ require 'yaml'
 require 'nokogiri'
 require 'open-uri'
 require 'json'
+require 'google_weather'
 
 class Foursquare
   def initialize(token)
@@ -43,41 +44,20 @@ class Foursquare
   end
 end
 
-class Weather
-  def initialize(location)
-    @location = location
-  end
-
-  def report
-    Nokogiri::XML(open("http://www.google.com/ig/api?weather=#{@location}"))
-  end
-
-  def temp_c
-    report.css("weather current_conditions temp_c").attr('data').value
-  end
-
-  def temp_f
-    report.css("weather current_conditions temp_f").attr('data').value
-  end
-
-  def icon
-    report.css("weather current_conditions icon").attr('data').value
-  end
-end
-
 class WhereIsKeavy
   OAUTH_TOKEN = ENV['OAUTH_TOKEN']
 
   def results
     foursquare = Foursquare.new(OAUTH_TOKEN)
-    weather = Weather.new(foursquare.location['city'])
+    weather = GoogleWeather.new(foursquare.lat_lng)
+
     {
       :timezone => foursquare.timezone,
       :lat_lng => foursquare.lat_lng,
       :location_str => foursquare.location_str,
-      :temp_c => weather.temp_c,
-      :temp_f => weather.temp_f,
-      :icon => weather.icon
+      :icon => weather.forecast_conditions[0].icon,
+      :low => weather.forecast_conditions[0].low,
+      :high => weather.forecast_conditions[0].high
     }
   end
 
