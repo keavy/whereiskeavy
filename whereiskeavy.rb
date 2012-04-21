@@ -55,6 +55,7 @@ class WhereIsKeavy
       :timezone => foursquare.timezone,
       :lat_lng => foursquare.lat_lng,
       :location_str => foursquare.location_str,
+      :city => foursquare.location['city'],
       :icon => weather.forecast_conditions[0].icon,
       :low => weather.forecast_conditions[0].low,
       :high => weather.forecast_conditions[0].high

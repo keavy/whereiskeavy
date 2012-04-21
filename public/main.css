@@ -34,8 +34,35 @@ h1 {
 }
 
 h2 {
-  color:#508395;
+  color:#FF0000;
   margin-bottom: 5px;
   font-family:'LeagueGothicRegular', Helvetica, Arial, sans-serif;
   text-transform:uppercase;
 }
+
+.map {
+    background-color: #ccc;
+    width: 100%;
+    max-width: 600px;
+    height: 350px;
+    margin: 0 0 20px 0;
+}
+
+.map-tile {
+  opacity: 0;
+}
+.map-tile-loaded {
+  -webkit-animation-name: 'fade-in';
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-duration: 0.2s;
+}
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.marker { background-color: #FF0000; color: #fff; padding: 5px;}
