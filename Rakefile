@@ -18,5 +18,5 @@ task :default => :spec
 desc "load results"
 task :load_results do
   require './whereiskeavy'
-  p WhereIsKeavy.new.store_results
+  WhereIsKeavy.new.store_results
 end

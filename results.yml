@@ -1,10 +1,10 @@
 --- 
-:timezone: America/Phoenix
+:timezone: America/Los_Angeles
 :lat_lng: 
-- 32.24959602450668
-- -110.8394506158091
-:location_str: Tucson, Arizona, United States
-:city: Tucson
-:icon: /ig/images/weather/sunny.gif
+- 37.78184495528403
+- -122.40475416183472
+:location_str: San Francisco, CA, United States
+:city: San Francisco
+:icon: /ig/images/weather/mostly_sunny.gif
 :low: "52"
-:high: "104"
+:high: "68"

@@ -63,6 +63,7 @@ class WhereIsKeavy
   end
 
   def store_results
+    p results
     File.open('./results.yml', 'w') do |out|
       YAML.dump(results, out)
     end
