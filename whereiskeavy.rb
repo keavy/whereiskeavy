@@ -64,13 +64,13 @@ class WhereIsKeavy
 
   def store_results
     p results
-    File.open('./results.yml', 'w') do |out|
+    File.open('./tmp/results.yml', 'w') do |out|
       YAML.dump(results, out)
     end
   end
 
   def load_results
-    YAML.load_file('./results.yml')
+    YAML.load_file('./tmp/results.yml')
   rescue
     {}
   end

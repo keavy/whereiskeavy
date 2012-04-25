@@ -1,10 +1,10 @@
 --- 
-:timezone: America/Los_Angeles
+:timezone: America/Denver
 :lat_lng: 
-- 37.78184495528403
-- -122.40475416183472
-:location_str: San Francisco, CA, United States
-:city: San Francisco
-:icon: /ig/images/weather/mostly_sunny.gif
-:low: "52"
+- 37.65644106575992
+- -113.08330535888672
+:location_str: Cedar City, UT, United States
+:city: Cedar City
+:icon: /ig/images/weather/sunny.gif
+:low: "32"
 :high: "68"

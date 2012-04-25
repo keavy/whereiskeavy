@@ -1,0 +1,10 @@
+--- 
+:timezone: Europe/London
+:lat_lng: 
+- 55.788542890225045
+- -4.275312423706055
+:location_str: Clarkston, Glasgow, United Kingdom
+:city: Clarkston
+:icon: /ig/images/weather/rain.gif
+:low: "43"
+:high: "52"
