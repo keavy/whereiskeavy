@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'WhereIsKeavy' do
-  include Rack::Test::Methods
-
   describe "Homepage" do
     before do
       result = fixture_file('checkins.json')

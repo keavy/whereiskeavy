@@ -47,11 +47,13 @@ end
 class WhereIsKeavy
   OAUTH_TOKEN = ENV['OAUTH_TOKEN']
 
-  def results
+  def results(reload=false)
+    return @results if @results unless reload
+    
     foursquare = Foursquare.new(OAUTH_TOKEN)
     weather = GoogleWeather.new(foursquare.lat_lng)
 
-    {
+    @results = {
       :timezone => foursquare.timezone,
       :lat_lng => foursquare.lat_lng,
       :location_str => foursquare.location_str,
@@ -63,21 +65,56 @@ class WhereIsKeavy
   end
 
   def store_results
-    p results
-    File.open('./tmp/results.yml', 'w') do |out|
+    redis_store
+    file_store
+  end
+  
+  def load_results
+    load_from_redis || load_from_file || {}
+  end
+
+
+  private
+  def file_store
+    File.open('./results.yml', 'w') do |out|
       YAML.dump(results, out)
     end
   end
 
-  def load_results
-    YAML.load_file('./tmp/results.yml')
+  def load_from_file
+    res = YAML.load_file('./results.yml')
+    redis_store(res)
   rescue
-    {}
+    false
+  end
+  
+  def redis_store(res=results)
+    redis.set 'results', res.to_yaml
+  end
+  
+  def load_from_redis
+    if defined?(Redis) and res = redis.get('results')
+      YAML.load(res)
+    end
+  rescue
+    false
+  end
+  
+  def redis
+    @redis ||= begin
+      if config = ENV['REDISTOGO_URL'] and uri = URI.parse(config)
+        Redis.new :host => uri.host, :port => uri.port, :password => uri.password
+      else
+        Redis.new
+      end
+    end
   end
 end
 
+default_timezone = 'America/Phoenix'
+
 get '/' do
   @results = WhereIsKeavy.new.load_results
-  @timezone = TZInfo::Timezone.get(@results[:timezone])
+  @timezone = TZInfo::Timezone.get(@results[:timezone] || default_timezone)
   erb :index
 end

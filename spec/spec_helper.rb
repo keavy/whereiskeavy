@@ -15,6 +15,7 @@ end
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.include WebMock
 end
 
 def fixture_file(filename, options={})
