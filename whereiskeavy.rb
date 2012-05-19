@@ -75,6 +75,7 @@ class WhereIsKeavy
   end
 
   def store_results
+    p results
     redis_store
     file_store
   end
