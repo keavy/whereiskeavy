@@ -1,13 +1,23 @@
+require 'foursquare2'
+require 'google_weather'
+require 'json'
+require 'nokogiri'
+require 'oauth2'
+require 'open-uri'
+require 'redis'
 require 'rubygems'
 require 'sinatra'
-require 'foursquare2'
-require 'oauth2'
 require 'tzinfo'
 require 'yaml'
-require 'nokogiri'
-require 'open-uri'
-require 'json'
-require 'google_weather'
+
+configure :production do
+  uri = URI.parse(ENV["REDISTOGO_URL"])
+  REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+end
+
+configure :development do
+  REDIS = Redis.new
+end
 
 class Foursquare
   def initialize(token)
@@ -102,11 +112,7 @@ class WhereIsKeavy
   
   def redis
     @redis ||= begin
-      if config = ENV['REDISTOGO_URL'] and uri = URI.parse(config)
-        Redis.new :host => uri.host, :port => uri.port, :password => uri.password
-      else
-        Redis.new
-      end
+      REDIS
     end
   end
 end
