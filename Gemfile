@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem 'foursquare2', '~> 1.3.6'
-gem "json", "~> 1.6.6"
+gem "json", "~> 2.3.0"
 gem 'nokogiri'
 gem 'oauth2'
 gem 'sinatra'
